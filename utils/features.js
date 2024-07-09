@@ -67,8 +67,7 @@ const uploadFilesToCloudinary = async (files = []) => {
   }
 };
 
-const deletFilesFromCloudinary = async (public_ids) => {
-  // Delete files from cloudinary
+const deletFiles = async (public_ids) => {
 };
 
 export {
@@ -76,6 +75,6 @@ export {
   sendToken,
   cookieOptions,
   emitEvent,
-  deletFilesFromCloudinary,
+  deletFiles,
   uploadFilesToCloudinary,
 };

@@ -2,7 +2,7 @@ import { TryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 import { Chat } from "../models/chat.js";
 import {
-  deletFilesFromCloudinary,
+  deletFiles,
   emitEvent,
   uploadFilesToCloudinary,
 } from "../utils/features.js";
@@ -345,7 +345,6 @@ const deleteChat = TryCatch(async (req, res, next) => {
     );
   }
 
-  //   Here we have to dete All Messages as well as attachments or files from cloudinary
 
   const messagesWithAttachments = await Message.find({
     chat: chatId,
@@ -359,7 +358,7 @@ const deleteChat = TryCatch(async (req, res, next) => {
   );
 
   await Promise.all([
-    deletFilesFromCloudinary(public_ids),
+    deletFiles(public_ids),
     chat.deleteOne(),
     Message.deleteMany({ chat: chatId }),
   ]);
