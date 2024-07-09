@@ -62,7 +62,7 @@ app.use("/api/v1/chat", chatRoute);
 app.use("/api/v1/admin", adminRoute);
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.send("NAMASTE");
 });
 
 io.use((socket, next) => {
@@ -133,7 +133,7 @@ io.on("connection", (socket) => {
 app.use(errorMiddleware);
 
 server.listen(port, () => {
-  console.log(`Server is running on port ${port} in ${envMode} Mode`);
+  console.log(`Server is running on port ${port} in ${envMode} Mode bhiya`);
 });
 
 export { envMode, userSocketIDs,adminSecretKey };
