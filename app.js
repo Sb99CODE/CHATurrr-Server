@@ -1,18 +1,13 @@
 import express from "express";
+import { connectDB } from "./utils/features.js";
 import dotenv from "dotenv";
+import { errorMiddleware } from "./middlewares/error.js";
 import cookieParser from "cookie-parser";
-import cors from "cors";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import { v4 as uuid } from "uuid";
+import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
-
-import { connectDB } from "./utils/features.js";
-import { errorMiddleware } from "./middlewares/error.js";
-import { socketAuthenticator } from "./middlewares/auth.js";
-import { getSockets } from "./lib/helper.js";
-import { Message } from "./models/message.js";
-import { corsOptions } from "./constants/config.js";
 import {
   CHAT_JOINED,
   CHAT_LEAVED,
@@ -22,6 +17,10 @@ import {
   START_TYPING,
   STOP_TYPING,
 } from "./constants/events.js";
+import { getSockets } from "./lib/helper.js";
+import { Message } from "./models/message.js";
+import { corsOptions } from "./constants/config.js";
+import { socketAuthenticator } from "./middlewares/auth.js";
 
 import userRoute from "./routes/user.js";
 import chatRoute from "./routes/chat.js";
@@ -31,7 +30,6 @@ dotenv.config({
   path: "./.env",
 });
 
-// env vars
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
 const envMode = process.env.NODE_ENV.trim() || "PRODUCTION";
@@ -49,7 +47,9 @@ cloudinary.config({
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server, { cors: corsOptions });
+const io = new Server(server, {
+  cors: corsOptions,
+});
 
 app.set("io", io);
 
@@ -66,9 +66,11 @@ app.get("/", (req, res) => {
 });
 
 io.use((socket, next) => {
-  cookieParser()(socket.request, socket.request.res, async (err) => {
-    await socketAuthenticator(err, socket, next);
-  });
+  cookieParser()(
+    socket.request,
+    socket.request.res,
+    async (err) => await socketAuthenticator(err, socket, next)
+  );
 });
 
 io.on("connection", (socket) => {
@@ -79,7 +81,10 @@ io.on("connection", (socket) => {
     const messageForRealTime = {
       content: message,
       _id: uuid(),
-      sender: { _id: user._id, name: user.name },
+      sender: {
+        _id: user._id,
+        name: user.name,
+      },
       chat: chatId,
       createdAt: new Date().toISOString(),
     };
@@ -91,7 +96,10 @@ io.on("connection", (socket) => {
     };
 
     const membersSocket = getSockets(members);
-    io.to(membersSocket).emit(NEW_MESSAGE, { chatId, message: messageForRealTime });
+    io.to(membersSocket).emit(NEW_MESSAGE, {
+      chatId,
+      message: messageForRealTime,
+    });
     io.to(membersSocket).emit(NEW_MESSAGE_ALERT, { chatId });
 
     try {
@@ -113,12 +121,14 @@ io.on("connection", (socket) => {
 
   socket.on(CHAT_JOINED, ({ userId, members }) => {
     onlineUsers.add(userId.toString());
+
     const membersSocket = getSockets(members);
     io.to(membersSocket).emit(ONLINE_USERS, Array.from(onlineUsers));
   });
 
   socket.on(CHAT_LEAVED, ({ userId, members }) => {
     onlineUsers.delete(userId.toString());
+
     const membersSocket = getSockets(members);
     io.to(membersSocket).emit(ONLINE_USERS, Array.from(onlineUsers));
   });
@@ -136,4 +146,4 @@ server.listen(port, () => {
   console.log(`Server is running on port ${port} in ${envMode} Mode bhiya`);
 });
 
-export { envMode, userSocketIDs,adminSecretKey };
+export { envMode, adminSecretKey, userSocketIDs };
