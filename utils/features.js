@@ -71,10 +71,10 @@ const deletFiles = async (public_ids) => {
 };
 
 export {
-  connectDB,
-  sendToken,
   cookieOptions,
   emitEvent,
   deletFiles,
+  connectDB,
+  sendToken,
   uploadFilesToCloudinary,
 };
