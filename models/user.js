@@ -7,10 +7,6 @@ const schema = new Schema(
       type: String,
       required: true,
     }, 
-    bio: {
-      type: String,
-      required: true,
-    },
     username: {
       type: String,
       required: true,
@@ -20,6 +16,10 @@ const schema = new Schema(
       type: String,
       required: true,
       select: false,
+    },
+    bio: {
+      type: String,
+      required: true,
     },
     avatar: {
       public_id: {

@@ -2,6 +2,10 @@ import mongoose, { Schema, model, Types } from "mongoose";
 
 const schema = new Schema(
   {
+    creator: {
+      type: Types.ObjectId,
+      ref: "User",
+    },
     name: {
       type: String,
       required: true,
@@ -9,10 +13,6 @@ const schema = new Schema(
     groupChat: {
       type: Boolean,
       default: false, 
-    },
-    creator: {
-      type: Types.ObjectId,
-      ref: "User",
     },
     members: [
       {

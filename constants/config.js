@@ -1,4 +1,4 @@
-const corsOptions = {
+const corsDef = {
   origin: [
     "https://cha-turrr-client.vercel.app",
     "https://cha-turrr-client-ndcnenzg0-sujals-projects-46f211ea.vercel.app",
@@ -11,7 +11,5 @@ const corsOptions = {
   credentials: true,
 };
 
-
 const CHATUR_TOKEN = "chatur-token";
-
-export { corsOptions, CHATUR_TOKEN };
+export { corsDef, CHATUR_TOKEN };

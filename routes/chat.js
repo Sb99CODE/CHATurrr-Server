@@ -26,8 +26,6 @@ import { attachmentsMulter } from "../middlewares/multer.js";
 
 const app = express.Router();
 
-// After here user must be logged in to access the routes
-
 app.use(isAuthenticated);
 
 app.post("/new", newGroupValidator(), validateHandler, newGroupChat);
@@ -47,7 +45,6 @@ app.put(
 
 app.delete("/leave/:id", chatIdValidator(), validateHandler, leaveGroup);
 
-// Send Attachments
 app.post(
   "/message",
   attachmentsMulter,
@@ -56,10 +53,8 @@ app.post(
   sendAttachments
 );
 
-// Get Messages
 app.get("/message/:id", chatIdValidator(), validateHandler, getMessages);
 
-// Get Chat Details, rename,delete
 app
   .route("/:id")
   .get(chatIdValidator(), validateHandler, getChatDetails)
