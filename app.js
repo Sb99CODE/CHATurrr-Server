@@ -17,7 +17,6 @@ import { corsDef } from "./constants/config.js";
 import { socketAuthenticator } from "./middlewares/auth.js";
 
 import userRoute from "./routes/user.js";
-import adminRoute from "./routes/admin.js";
 import chatRoute from "./routes/chat.js";
 
 dotenv.config({
@@ -27,7 +26,6 @@ dotenv.config({
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
 const envv = process.env.NODE_ENV.trim() || "PRODUCTION";
-const adminSecretKey = process.env.ADMIN_SECRET_KEY || "naklipastahehehehe";
 const userSocketIDs = new Map();
 const onlineUsers = new Set();
 
@@ -52,7 +50,6 @@ app.use(cookieParser());
 app.use(cors(corsDef));
 
 app.use("/api/v1/user", userRoute);
-app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/chat", chatRoute);
 
 app.get("/", (req, res) => {
@@ -129,4 +126,4 @@ app.use(errorMiddleware);
 server.listen(port, () => {
   console.log(`Server is running on port ${port} in ${envv} Mode bhiya`);
 });
-export { envv, adminSecretKey, userSocketIDs };
+export { envv, userSocketIDs };

@@ -2,13 +2,8 @@ import express from "express";
 import {
   acceptFriendRequest,getMyFriends,login,logout,getMyNotifications,getMyProfile,
   newUser,searchUser,sendFriendRequest} from "../controllers/user.js";
-import {
-  acceptRequestValidator,
-  loginValidator,
-  registerValidator,
-  sendRequestValidator,
-  validateHandler,
-} from "../lib/validators.js";
+import {acceptRequestValidator,loginValidator,registerValidator,
+sendRequestValidator,validateHandler,} from "../lib/validators.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 import { singleAvatar } from "../middlewares/multer.js";
 

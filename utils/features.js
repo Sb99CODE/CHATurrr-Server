@@ -70,11 +70,4 @@ const uploadFilesToCloudinary = async (files = []) => {
 const deletFiles = async (public_ids) => {
 };
 
-export {
-  cookieOptions,
-  emitEvent,
-  deletFiles,
-  connectDB,
-  sendToken,
-  uploadFilesToCloudinary,
-};
+export {cookieOptions,emitEvent,deletFiles,connectDB,sendToken,uploadFilesToCloudinary,};
